@@ -13,10 +13,11 @@ const getRun = async (req, res) => {
     params: { id: runId },
   } = req;
 
-  const run = await Run.find({ createdBy: userId, _id: runId });
+  const run = await Run.findOne({ createdBy: userId, _id: runId });
   if (!run) {
     throw new NotFoundError(`No run with id ${runId} found`);
   }
+  console.log(run);
   res.status(StatusCodes.OK).json({ run });
 };
 
@@ -60,7 +61,7 @@ const deleteRun = async (req, res) => {
     throw new BadRequestError(`No run with id ${runId} found`);
   }
 
-  res.status(StatusCodes.ACCEPTED).send();
+  res.status(StatusCodes.ACCEPTED).json({ msg: "Run deleted" });
 };
 
 module.exports = { getAllRuns, getRun, createRun, updateRun, deleteRun };
